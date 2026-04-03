@@ -55,7 +55,7 @@
     <div class="container" id="main">
         <div class="row">
             <h2 class="col-md-12 text-center">
-                <b><span class="method-name">AgenticRed</span></b><br>Optimizing Agentic Systems for Automated Red-teaming<br>
+                <b><span class="method-name">AgenticRed</span></b><br>Evolving Agentic Systems for Red-Teaming<br>
                 <!-- <strong style="display: inline-block; color: #B22578; font-size: 0.6em; margin-top: 0.5em;">ICLR 2025</strong><br>
                 <strong style="display: inline-block; color: #B22578; font-size: 0.6em; margin-top: 0.5em;">🏆 Outstanding Paper (NeurIPS 2024 Open-World Agent Workshop)</strong> -->
             </h2>
@@ -174,7 +174,8 @@
                 TL;DR
             </h2>
             <p class="text-justify" style="font-size: 16px;">
-                We introduce <span class="method-name">AgenticRed</span>, an automated pipeline that leverages LLMs’ in-context learning to iteratively design and refine red-teaming systems without human intervention. We treat red-teaming as a system design problem, and applies evolutionary algorithms to produce better systems. Red-teaming systems designed by AgenticRed consistently outperform state-of-the-art approaches on open models, and transfers to proprietary models.
+                We introduce <span class="method-name">AgenticRed</span>, an automated pipeline that leverages LLMs’ in-context learning to iteratively design and refine red-teaming systems without human intervention.
+                AgenticRed treats red-teaming as a system design problem, and it autonomously evolves automated red-teaming systems using evolutionary selection and generational knowledge. Red-teaming systems designed by AgenticRed is <b>robust</b> and <b>query-agnostic</b>, consistently outperforming state-of-the-art approaches, achieving impressive results on the latest proprietary models, with an impressive <b>100% ASR on GPT-5.1, DeepSeek-R1 and DeepSeek V3.2</b>.
             </p>
             <image src="img/AgenticRed_intro.png" class="img-responsive" alt="overview"><br>
                 <h2>
@@ -182,9 +183,8 @@
                 </h2>
                 <p class="text-justify" style="font-size: 16px;">
                     Red-teaming, the practice of systematically probing systems for vulnerabilities and failure modes, has evolved into its own rigorous scientific domain within AI safety research. Automated red-teaming, which leverage computational methods to systemically discover adversarial prompts and expose vulnerabilities, has proven particularly valuable in this landscape as an alternative to traditional manual red-teaming, which relies on human annotators to uncover model vulnerabilities. <br></br>
-                    Prior automated red-teaming methods typically rely on (1) predefined attack strategies, (2) reinforcement-learning–fine-tuned attacker models, or (3) fixed-structure agentic systems. Most mainstream automated red-teaming methods generate test cases using LLMs. These methods usually employ some agentic workflow that leverage multi-agent interaction and LLM reasoning capabilities to compose sophisticated attack strategies. This shift naturally raises the question of how to better structure an agentic system for more effective attacks. <br></br>
-                    While these agentic red-teaming systems have demonstrated superior performance, their manually-designed workflows suffer from human biases and make exploring the broader design space expensive.<br></br>
-                    Motivated by the recent findings showing LLMs' remarkable capacities for self-improvement through iterative design processes, we frame automated red-teaming as a reasoning task, and developing red-teaming system as a system design problem. We then apply automated design methods to address this problem.
+                    Prior automated red-teaming methods typically rely on (1) predefined attack strategies, (2) reinforcement-learning–fine-tuned attacker models, or (3) fixed-structure agentic systems. Most mainstream automated red-teaming methods generate test cases using LLMs. These methods usually employ some agentic workflow that leverage multi-agent interaction and LLM reasoning capabilities to compose sophisticated attack strategies. This shift naturally raises the question of how to better structure an agentic system for more effective attacks. While these agentic red-teaming systems have demonstrated superior performance, their manually-designed workflows suffer from human biases and make exploring the broader design space expensive.<br></br>
+                    Motivated by the recent findings showing LLMs' remarkable capacities for self-improvement through iterative design processes, we frame automated red-teaming as a reasoning task, and developing red-teaming system as a system design problem. We then apply evolutionary algorithms to address this problem.
                 </p>
         </div>
     </div>
@@ -231,11 +231,14 @@
                 Overview of AgenticRed Framework
             </h2>
             <div style="text-align:center;">
-                <img src="img/AgenticRed_flow.png" alt="overview" style="display:inline-block; max-width:80%; height:auto;">
+                <img src="img/AgenticRed_flow.jpg" alt="overview" style="display:inline-block; max-width:80%; height:auto;">
             </div>
             <br>
                 <p class="text-justify" style="font-size: 16px;">
-                    <span class="method-name">AgenticRed</span> starts with an archive of state-of-the-art red-teaming systems and their associated performance metrics (“fitness score”), and uses an LLM (the “meta agent”) to iteratively. program new agentic systems. Each newly generated system is verified and evaluated on the red-teaming benchmark. Inspired by the principle of “survival of the fittest” from Darwinian evolutionary theory, we enforce the meta agent to generate multiple new agentic systems (“offspring”) at each generation, and retain only the best-performing systems in the archive based on their performance metrics on an initial evaluation dataset. The best-performing system is then added to the archive along with its evaluation metrics on a comprehensive evaluation dataset.
+                    <span class="method-name">AgenticRed</span> starts with an archive of state-of-the-art red-teaming systems and their associated performance metrics (“fitness score”), and uses an LLM (the “meta agent”) to iteratively. program new agentic systems. Each newly generated system is verified and evaluated on the red-teaming benchmark. 
+                    A generational knowledge dataset, including previously attempted failed prompts and successful prompts, is accumulated over time and passed down to subsequent generations.
+                    <br></br>
+                    Inspired by the principle of “survival of the fittest” from Darwinian evolutionary theory, we enforce the meta agent to generate multiple new agentic systems (“offspring”) at each generation, and retain only the best-performing systems in the archive based on their performance metrics on an initial evaluation dataset. The best-performing system is then added to the archive along with its evaluation metrics on a comprehensive evaluation dataset.
                     <!-- We tailor <span class="method-name">AgenticRed</span> to red-teaming domain by (1) creating an archive of red-teaming systems, (2) imposing an evolutionary pressure mechanism by picking the fittest system in each generation, and (3) supplying the meta agent with task-specific guidance and helper functions to interact with the target model and the judge function. -->
                 </p>
         </div>
@@ -250,26 +253,27 @@
             <h2 style="margin-bottom: 18px; font-size: 24px;">
                 Performance of <span class="method-name">AgenticRed</span>-designed Systems
             </h2>
-            <img src="img/held_out.png" class="img-responsive" alt="overview"><br>
+            <img src="img/Attack_Success_Rate_Query_Efficiency_Across_Target_LLMs.png" class="img-responsive" alt="overview"><br>
                 <p class="text-justify" style="font-size: 16px;">
-                    <b>Performance increases with our pipeline on open-weight and proprietary models.</b> Comparison of ASR score between baselines and AgenticRed evaluating on held-out test set. We select the best system produced by AgenticRed over 10 generations.
+                    <b>AgenticRed's performance across popular open-weight models</b>. The systems designed by AgenticRed outperform the archive and hand-designed baseline methods within several generations, showing high query efficiency and robustness across target models.
+                </p>
+
+            <img src="img/asr_open.png" class="img-responsive" alt="overview"><br>
+            <img src="img/Attack_Success_Rate_Query_Efficiency_Across_Benchmarks.png" class="img-responsive" alt="overview"><br>
+            <img src="img/asr_gpt.png" class="img-responsive" alt="overview"><br>
+                <p class="text-justify" style="font-size: 16px;">
+                    <b>Performance is robust across judge functions, benchmark datasets and proprietary target models.</b>
+                    Comparison of ASR score between baselines and AgenticRed evaluating on held-out test set. We select the best system produced by AgenticRed over 10 generations.
+                    Note that the systems generated by AgenticRedwere originally designed for Llama2-7B or Qwen3-8B, and are evaluated on the other target models without additional retuning.
                 </p>
                 <br><br>
-            <img src="img/result_web.png" class="img-responsive" alt="overview"><br>
+
+            <img src="img/tsne_and_cumulative_pairwise_distance_by_generation.png" class="img-responsive" alt="overview"><br>
                 <p class="text-justify" style="font-size: 16px; ">
-                    <b>Our method generalizes to alternative target LLM, attacker LLM, and meta agent LLM.</b> <br></br>Here are the ASR of AgenticRed (a) targeting Llama-2-7B over 10 generations comparing to baseline method. 
-                    (b) targeting Llama-2-7B over 10 generations, using Vicuna-13B-v1.5 as attacker model. (c) targeting Llama-3-8B over 10 generations. (d) targeting Llama-2-7B over 10 generations, using DeepSeek-R1 as the meta agent.
-                </p>
-                <br><br>
-            <div style="text-align:center;">
-                <img src="img/strongreject.png" class="img-responsive" alt="overview" style="display:inline-block; max-width:80%; height:auto;"><br>
-            </div>
-                <p class="text-justify" style="font-size: 16px; ">
-                    <b>Our method transfers to held-out test cases and alternative benchmark.</b> Comparison of StrongREJECT score between baselines and AgenticRed.
-                    <br><br>
-            <h2 style="margin-bottom: 18px; font-size: 24px;">
-                Ablation Studies
-            </h2>
+                    <b>AgenticRed can generates successful and diverse attacks.</b> During the diversity-oriented search, we leverage generational knowledge to encourage attack diversity by introducing a novelty-based fitness metric, computed by the embedding distance between the previous attacks and the new attacks generated by the system.
+                        This fitness metric rewards the production of successful yet semantically distinct attacks. The result shows that successful attacks spread progressively across the embedding space, with cumulative mean pairwise cosine distance increasing monotonically.
+                 </p>
+<br><br>
             <img src="img/ablation.png" class="img-responsive" alt="overview"><br>
                 <p class="text-justify" style="font-size: 16px; ">
                     <b> Ablation study shows the impacts of evolutionary pressure and archive initialization, comparing to the original AgenticRed pipeline (Ours).</b> <br></br>
@@ -283,6 +287,7 @@
     <!-- Carousel Title -->
     <div class="carousel-title">
         <h2>Examples of Red-teaming Agentic Systems</h2>
+        <h3>Check out the code repo for the best performing red-teaming systems.</h3>
     </div>
     
     <!-- Carousel Component -->
@@ -299,8 +304,8 @@
             <div class="item active">
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="slide-subtitle">Generated Python Code: PHOENIX-MCTS (6th Generation)<br>Monte Carlo Tree Search for Refusal-Aware Prompt Editing with Wrapper Diversity </div>
-                        <pre style="font-size: 11px; max-height: 380px; overflow-y: scroll; background-color: #f8f9fa; padding: 10px;"><code class="python">def forward(self, taskInfo):
+                        <div class="slide-subtitle">Generated Python Code: PHOENIX-MCTS (6th Generation)<br>Monte Carlo Tree Search for Refusal-Aware Prompt Editing with Wrapper Diversity. Second best performing system targeting Llama2-7B.</div>
+                        <pre style="font-size: 11px; max-height: 380px; overflow-y: scroll; background-color: #f8f9fa; padding: 10px;"><code class="python">
 def forward(self, taskInfo):
     # PHOENIX-MCTS: Monte Carlo Tree Search for Refusal-Aware Prompt Editing with Wrapper Diversity
     # Extract goal (harmful behavior) and target reply prefix
@@ -1150,7 +1155,7 @@ def forward(self, taskInfo):
             <div class="item">
                 <div class="row">
                     <div class="col-md-6">
-                        <div class="slide-subtitle">Generated Python Code: RAID-BEAM (3rd Generation) <br>Refusal-Aware Dual-loop Beam Evolution with Adversarial Wrappers</div>
+                        <div class="slide-subtitle">Generated Python Code: RAID-BEAM (3rd Generation) <br>Refusal-Aware Dual-loop Beam Evolution with Adversarial Wrappers. Best performing system targeting Llama2-7B.</div>
                         <pre style="font-size: 11px; max-height: 380px; overflow-y: scroll; background-color: #f8f9fa; padding: 10px;"><code class="python">def forward(self, taskInfo):
     # RAID-BEAM: Refusal-Aware Dual-loop Beam Evolution with Adversarial Wrappers
     # Extract goal and target prefix
