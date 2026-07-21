@@ -210,6 +210,47 @@ table.moda-table td.best{ color:var(--navy-900); font-weight:700; }
 .limits-list li{ margin-bottom:10px; color:var(--ink-soft); }
 .limits-list b{ color:var(--navy-900); }
 
+.epigraph{
+  background:var(--dawn-100);
+  border-top:1px solid var(--hair);
+  border-bottom:1px solid var(--hair);
+  padding:38px 0;
+  text-align:center;
+}
+.epigraph blockquote{
+  max-width:760px;
+  margin:0 auto;
+  font-family:'Fraunces', Georgia, serif;
+  font-style:italic;
+  font-size:1.3em;
+  line-height:1.5;
+  color:var(--navy-900);
+  border:none;
+  padding:0;
+}
+.epigraph cite{
+  display:block;
+  margin-top:14px;
+  font-family:'Source Sans 3', 'Helvetica Neue', Arial, sans-serif;
+  font-style:normal;
+  font-size:0.62em;
+  letter-spacing:0.02em;
+  color:var(--ink-soft);
+}
+
+.bibtex-block{
+  text-align:left;
+  background:var(--dawn-100);
+  border:1px solid var(--hair);
+  border-radius:8px;
+  padding:20px 24px;
+  font-family:'JetBrains Mono', monospace;
+  font-size:13.5px;
+  color:var(--ink-soft);
+  white-space:pre-wrap;
+  overflow-x:auto;
+}
+
 footer{
   background:var(--navy-900);
   color:#9fb3dd;
@@ -236,11 +277,10 @@ footer a{ color:#cdd9f5; }
 
 <div class="hero">
   <div class="container">
-    <div class="hero-eyebrow">NeurIPS 2026 &nbsp;·&nbsp; Post-Training &amp; Alignment</div>
+    <div class="hero-eyebrow"> When MARL Meets LLM Post-Training</div>
     <h1>Forty Shades of <span class="blue-word">Blue</span></h1>
     <h1 style="font-size:1.5em; color:#c9d6f2; margin-bottom:26px;">Quality-Diversity Alignment via Mode-Conditioned Reinforcement Learning</h1>
-    <p class="subtitle">MODA jointly optimizes generation quality and diversity by conditioning a single shared policy on abstract role tokens — treating each role as an agent that competes to explore a distinct, high-quality region of the response space.</p>
-
+    
     <div class="authors">
       <b>★ Jiayi Yuan</b><sup>1</sup> &nbsp; <b>★ Hangoo Kang</b><sup>2</sup> &nbsp; <b>★ James Jihao Liu</b><sup>2</sup> &nbsp;
       Yejin Choi<sup>2</sup> &nbsp; Vikram Iyer<sup>1</sup> &nbsp; ♦ Liwei Jiang<sup>1</sup> &nbsp; ♦ Natasha Jaques<sup>1</sup>
@@ -263,10 +303,20 @@ footer a{ color:#cdd9f5; }
   </div>
 </div>
 
+<div class="epigraph">
+  <div class="container">
+    <blockquote>
+      &ldquo;In the course of evolution nature has gone to endless trouble to see that every individual is unlike every other individual.&rdquo;
+      <cite>&mdash; Aldous Huxley, <em>Brave New World Revisited</em></cite>
+    </blockquote>
+  </div>
+</div>
+
 <section>
   <div class="container section-inner">
     <span class="eyebrow-label">TL;DR</span>
-    <p class="lede">Aligned LLMs quietly lose their expressive range — <b>mode collapse</b> narrows generation toward a small set of dominant responses. MODA (MOde-conditioned Diversity Alignment) is an online RL post-training method that prepends abstract numbered role tokens to the system prompt, letting a single shared policy generate several candidate responses per prompt that are pushed to specialize via a <b>quality-gated diversity reward</b>. The result: broader, higher-quality exploration on demand, with a simple switch back to standard single-response behavior when diversity isn't needed.</p>
+    <p class="lede">Aligned LLMs quietly lose their expressive range: <b>mode collapse</b> narrows generation toward a small set of dominant responses. 
+      <b>MODA</b> (<b>MO</b>de-conditioned <b>D</b>iversity <b>A</b>lignment) is an online RL post-training method that conditions a single shared policy on abstract role tokens, treating each role as an agent that competes to explore a distinct, high-quality region of the response space. A <b>quality-gated diversity reward</b> shapes this competition during training. The result: broader, higher-quality exploration on demand, with a simple switch back to standard single-response behavior when diversity isn't needed.</p>
 
     <div class="stat-row">
       <div class="stat-card"><div class="num">+29.1%</div><div class="label">SBERT diversity vs. Qwen3-8B initial policy (no-thinking)</div></div>
@@ -391,7 +441,7 @@ footer a{ color:#cdd9f5; }
   <div class="container section-inner">
     <span class="eyebrow-label">Citation</span>
     <h2 class="section-title">BibTeX</h2>
-    <div class="quote-block">@article{yuan2026forty,
+    <div class="bibtex-block">@article{yuan2026forty,
   title={Forty Shades of Blue: Quality-Diversity Alignment via Mode-Conditioned Reinforcement Learning},
   author={Yuan, Jiayi and Kang, Hangoo and Liu, James Jihao and Choi, Yejin and Iyer, Vikram and Jiang, Liwei and Jaques, Natasha},
   year={2026}
